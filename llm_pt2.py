@@ -123,7 +123,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS Profesional sin emojis
+# CSS Profesional con texto oscuro en el chat
 st.markdown("""
 <style>
     /* Variables de color */
@@ -135,6 +135,7 @@ st.markdown("""
         --accent-color: #FF6B6B;
         --text-primary: #212529;
         --text-secondary: #6C757D;
+        --text-dark: #1a1a1a;
         --background: #F8F9FA;
         --card-background: #FFFFFF;
         --border-color: #DEE2E6;
@@ -210,60 +211,135 @@ st.markdown("""
         letter-spacing: 0.05em;
     }
 
-    /* Chat interface */
-    .chat-container {
-        background: var(--card-background);
-        border-radius: 20px;
-        padding: 1.5rem;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        height: 600px;
-        display: flex;
-        flex-direction: column;
+    /* ===== ESTILOS DEL CHAT MEJORADOS ===== */
+    
+    /* Contenedor principal del chat */
+    .stChatMessage {
+        background: transparent !important;
+        padding: 1rem 0 !important;
     }
-
-    .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem;
-        background: var(--background);
-        border-radius: 10px;
-        margin-bottom: 1rem;
+    
+    /* Mensajes del usuario */
+    .stChatMessage[data-testid="user-message"] {
+        background: transparent !important;
     }
-
-    .chat-input-container {
-        display: flex;
-        gap: 1rem;
+    
+    .stChatMessage[data-testid="user-message"] .stMarkdown {
+        background: var(--primary-color) !important;
+        color: white !important;
+        padding: 1rem 1.5rem !important;
+        border-radius: 15px !important;
+        border-bottom-right-radius: 5px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        font-weight: 500 !important;
     }
-
-    /* Mensajes del chat */
-    .message {
-        margin: 1rem 0;
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
+    
+    .stChatMessage[data-testid="user-message"] .stMarkdown p {
+        color: white !important;
+        margin: 0 !important;
     }
-
-    .message-user {
-        flex-direction: row-reverse;
+    
+    /* Mensajes del asistente */
+    .stChatMessage[data-testid="assistant-message"] {
+        background: transparent !important;
     }
-
-    .message-content {
-        max-width: 70%;
-        padding: 1rem 1.5rem;
-        border-radius: 15px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown {
+        background: white !important;
+        color: var(--text-dark) !important;
+        padding: 1rem 1.5rem !important;
+        border-radius: 15px !important;
+        border-bottom-left-radius: 5px !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+        font-weight: 500 !important;
     }
-
-    .message-user .message-content {
-        background: var(--primary-color);
-        color: white;
-        border-bottom-right-radius: 5px;
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown p {
+        color: var(--text-dark) !important;
+        margin: 0.5rem 0 !important;
+        line-height: 1.6 !important;
+        font-size: 1rem !important;
     }
-
-    .message-assistant .message-content {
-        background: white;
-        border: 1px solid var(--border-color);
-        border-bottom-left-radius: 5px;
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown h1,
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown h2,
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown h3,
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown h4,
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown h5,
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown h6 {
+        color: var(--text-dark) !important;
+        font-weight: 700 !important;
+        margin: 1rem 0 0.5rem 0 !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown strong {
+        color: var(--primary-color) !important;
+        font-weight: 700 !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown em {
+        color: var(--text-dark) !important;
+        font-style: italic !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown ul,
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown ol {
+        color: var(--text-dark) !important;
+        margin: 0.5rem 0 !important;
+        padding-left: 1.5rem !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown li {
+        color: var(--text-dark) !important;
+        margin: 0.25rem 0 !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown code {
+        background: #f1f3f4 !important;
+        color: #d73502 !important;
+        padding: 0.2rem 0.4rem !important;
+        border-radius: 4px !important;
+        font-family: 'Monaco', 'Consolas', monospace !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown pre {
+        background: #f8f9fa !important;
+        color: var(--text-dark) !important;
+        padding: 1rem !important;
+        border-radius: 8px !important;
+        border: 1px solid var(--border-color) !important;
+        overflow-x: auto !important;
+    }
+    
+    .stChatMessage[data-testid="assistant-message"] .stMarkdown blockquote {
+        border-left: 4px solid var(--primary-color) !important;
+        background: #f8f9fa !important;
+        color: var(--text-dark) !important;
+        margin: 1rem 0 !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 0 8px 8px 0 !important;
+    }
+    
+    /* Input del chat */
+    .stChatInput {
+        border-radius: 15px !important;
+        border: 2px solid var(--border-color) !important;
+        background: white !important;
+    }
+    
+    .stChatInput:focus-within {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1) !important;
+    }
+    
+    .stChatInput textarea {
+        color: var(--text-dark) !important;
+        font-weight: 500 !important;
+    }
+    
+    .stChatInput textarea::placeholder {
+        color: var(--text-secondary) !important;
     }
 
     /* Botones */
@@ -435,6 +511,28 @@ st.markdown("""
 
     .fade-in {
         animation: fadeIn 0.5s ease-out;
+    }
+    
+    /* Estilos adicionales para mejor legibilidad */
+    .stMarkdown {
+        line-height: 1.6 !important;
+    }
+    
+    /* Asegurar que todo el texto sea legible */
+    .stMarkdown, .stMarkdown p, .stMarkdown div, .stMarkdown span {
+        color: var(--text-dark) !important;
+        font-weight: 500 !important;
+    }
+    
+    /* Enlaces */
+    .stMarkdown a {
+        color: var(--primary-color) !important;
+        text-decoration: underline !important;
+        font-weight: 600 !important;
+    }
+    
+    .stMarkdown a:hover {
+        color: var(--primary-light) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1747,3 +1845,4 @@ st.markdown("""
     <p>Asistente Azembi - Sistema Profesional de Análisis</p>
 </div>
 """, unsafe_allow_html=True)
+                    '
