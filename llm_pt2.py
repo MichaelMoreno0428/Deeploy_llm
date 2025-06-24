@@ -321,7 +321,7 @@ st.markdown("""
         border-radius: 0 8px 8px 0 !important;
     }
     
-    /* Input del chat */
+    /* Input del chat - Fondo blanco y texto negro */
     .stChatInput {
         border-radius: 15px !important;
         border: 2px solid var(--border-color) !important;
@@ -334,12 +334,22 @@ st.markdown("""
     }
     
     .stChatInput textarea {
-        color: var(--text-dark) !important;
+        background: white !important;
+        color: #000000 !important;
         font-weight: 500 !important;
     }
     
     .stChatInput textarea::placeholder {
-        color: var(--text-secondary) !important;
+        color: #666666 !important;
+    }
+    
+    /* Asegurar que el input mantenga fondo blanco en todos los estados */
+    .stChatInput div[data-testid="stChatInput"] {
+        background: white !important;
+    }
+    
+    .stChatInput div[data-testid="stChatInput"] > div {
+        background: white !important;
     }
 
     /* Botones */
